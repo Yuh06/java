@@ -17,9 +17,4 @@ public class ConfigService {
 	public List<Config> findKey(String key) {
 		return configRepository.findByKey(key);
 	}
-
-	public List<Config> findByKeyAndValue(String key, String value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

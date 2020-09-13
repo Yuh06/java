@@ -26,21 +26,13 @@ import java.util.stream.Collectors;
 public class EntityQuery<E> {
 
     private final EntityManager entityManager;
-
     private final Class<E> entityClass;
-
     private final CriteriaBuilder criteriaBuilder;
-
     private final CriteriaQuery<E> criteriaQuery;
-
     private final Root<E> root;
-
     private final List<Predicate> predicates = new ArrayList<>();
-
     private Integer firstResult;
-
     private Integer maxResults;
-
     private List<Order> orders = new ArrayList<>();
 
     private EntityQuery(EntityManager entityManager, Class<E> entityClass) {
@@ -99,27 +91,32 @@ public class EntityQuery<E> {
         root.fetch(attribute, JoinType.INNER);
         return this;
     }
-    //Sap xep tang dan
+
+    // Sap xap tang dan
     public EntityQuery<E> addAscendingOrderBy(String path) {
         orders.add(criteriaBuilder.asc(toJpaPath(path)));
         return this;
     }
-    //Sap xep giam dan
+
+    // Sap xap giam dan
     public EntityQuery<E> addDescendingOrderBy(String path) {
         orders.add(criteriaBuilder.desc(toJpaPath(path)));
         return this;
     }
 
+    // Offset
     public EntityQuery<E> setFirstResult(Integer firstResult) {
         this.firstResult = firstResult;
         return this;
     }
-    //Limit
+
+    // Limit
     public EntityQuery<E> setMaxResults(Integer maxResults) {
         this.maxResults = maxResults;
         return this;
     }
-    //So sanh object
+    
+    // so sanh bang cua object
     public EntityQuery<E> objectEqualsTo(String path, Object value) {
         if (value != null) {
             addEqualPredicate(path, value);
@@ -133,7 +130,8 @@ public class EntityQuery<E> {
         }
         return Optional.empty();
     }
-    //where like
+
+    // where like
     public EntityQuery<E> like(String path, String value) {
         if (StringUtils.isNotBlank(value)) {
             predicates.add(criteriaBuilder.like(toJpaPath(path), '%' + value + '%'));
@@ -151,6 +149,7 @@ public class EntityQuery<E> {
         return this;
     }
 
+	// where and ( bien la chuoi)
     public EntityQuery<E> stringEqualsTo(String path, String value) {
         if (StringUtils.isNotBlank(value)) {
             addEqualPredicate(path, value);
@@ -158,6 +157,7 @@ public class EntityQuery<E> {
         return this;
     }
     
+    // where and ( bien la int )
     public EntityQuery<E> integerEqualsTo(String path, Integer value) {
     	if(value != null) {
     		addEqualPredicate(path, value);
@@ -165,6 +165,7 @@ public class EntityQuery<E> {
         return this;
     }
 
+    // where ( >= )
 	public EntityQuery<E> greaterThanOrEqualsTo(String path, Comparable comparable) {
         if (Objects.nonNull(comparable)) {
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(toJpaPath(path), comparable));
@@ -172,6 +173,7 @@ public class EntityQuery<E> {
         return this;
     }
 
+	// where ( <= )
     public EntityQuery<E> lessThanOrEqualsTo(String path, Comparable comparable) {
         if (Objects.nonNull(comparable)) {
             predicates.add(criteriaBuilder.lessThanOrEqualTo(toJpaPath(path), comparable));
@@ -179,13 +181,15 @@ public class EntityQuery<E> {
         return this;
     }
 
+    // Where between ( nam trong khoang du lieu ngay thang )
     public EntityQuery<E> between(String path, Date firstDate, Date secondDate) {
         if (Objects.nonNull(firstDate) && Objects.nonNull(secondDate)) {
             predicates.add(criteriaBuilder.between(toJpaPath(path), firstDate, secondDate));
         }
         return this;
     }
-
+    
+    // Where in ( nam trong khoang du lieu int)
     public EntityQuery<E> in(String path, Collection collection) {
         if (CollectionUtils.isNotEmpty(collection)) {
             predicates.add(criteriaBuilder.in(toJpaPath(path)).value(collection));

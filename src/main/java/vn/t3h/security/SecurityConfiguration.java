@@ -1,6 +1,7 @@
 
 package vn.t3h.security;
 
+import vn.t3h.dao.UserPermisionDao;
 import vn.t3h.model.UserPermision;
 import vn.t3h.services.UserDetailsServiceImpl;
 
@@ -34,11 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Autowired
     @Qualifier("customUserDetailsService")
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
     
     @Autowired
-    UserDetailsServiceImpl userDetailsApi;
- 
+    private UserPermisionDao userPermisionDao;
+    
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -46,21 +47,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     
     @Autowired
-    PersistentTokenRepository tokenRepository;
+    private PersistentTokenRepository tokenRepository;
  
     @Autowired // Authen Login
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	// Tim User
         auth.userDetailsService(userDetailsService);
+        // So sanh password
         auth.authenticationProvider(authenticationProvider());
     }
  
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-            .userDetailsService(userDetailsApi)
-            .passwordEncoder(passwordEncoder());
-    }
-    
     @Override // Author phan quyen nguoi dung.
     protected void configure(HttpSecurity http) throws Exception {
         
@@ -68,8 +64,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/api/**", "/api-config/**"
         };
         String[] resources = new String[]{
-        		"/", "/css/**", "/fonts/**", "/icons/**", "/img/**",
-        		"/favicon.ico", "/js/**","/page/", "/pages/","/api/**"
+    		"/", "/css/**", "/fonts/**", "/icons/**", "/img/**",
+    		"/favicon.ico", "/js/**", "/pages/**", "/api/**"
         };
         
         http.authorizeRequests()
@@ -81,16 +77,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/auth/login").permitAll()
         .antMatchers("/access-deny").permitAll();
         
-   
-		Object userPermissionDao;
-		List<UserPermision> userPermisions = userPermissionDao.getAllPermission();
+        List<UserPermision> userPermisions = userPermisionDao.getAllPermision();
         for(UserPermision userP : userPermisions) {
             logger.info("userPermision action:{} ,roles:{}", userP.getAction(), userP.getRoles());
             if("any".equals(userP.getRoles())){
                 http.authorizeRequests().antMatchers(userP.getAction()).permitAll();
-            } else http.authorizeRequests().antMatchers(userP.getAction()).access(userP.getRoles());
+            } else {
+            	http.authorizeRequests().antMatchers(userP.getAction()).access(userP.getRoles());
+            }
         }
-        
         
         http.authorizeRequests()
         .anyRequest().authenticated()

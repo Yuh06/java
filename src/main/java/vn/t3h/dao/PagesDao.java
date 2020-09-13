@@ -62,30 +62,6 @@ public class PagesDao {
 		}
 	}
 	
-//	public List<Pages> filter(Pages filter) {
-//		List<Pages> listItems = new ArrayList<Pages>();
-//		try {
-//			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-//			CriteriaQuery<Pages> criteria = builder.createQuery(Pages.class);
-//			Root<Pages> root = criteria.from(Pages.class);
-//			//where name="${name}";
-//			if(filter.getName() != null) {
-//				criteria.where(
-//					builder.equal(root.get("name"), filter.getName())
-//				);
-//			}
-//			if(filter.getTitle() != null) {
-//				criteria.where(
-//					builder.equal(root.get("titie"), filter.getTitle())
-//				);
-//			}
-//			// where name="${name}" and title = "${title}";
-//			listItems = entityManager.createQuery(criteria).getResultList();
-//		}catch (RuntimeException ex) {
-//			log.error("loi tim theo ten: {}", ex.getMessage());
-//		}
-//		return listItems;
-//	}
 	public List<Pages> filter(Pages filter) {
 		var et = EntityQuery.create(entityManager, Pages.class);
 		return et.like("name", filter.getName())

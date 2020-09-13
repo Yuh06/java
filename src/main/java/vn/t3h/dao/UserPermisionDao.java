@@ -5,6 +5,7 @@ import vn.t3h.model.UserPermision;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,11 @@ public class UserPermisionDao {
     
     Logger logger = LoggerFactory.getLogger(UserPermisionDao.class);
     
+    @PersistenceContext
+    private EntityManager entityManager;
+    
     public List<UserPermision> getAllPermision() {
-        
-		return EntityQuery.create(entityManager, UserPermission.class).list();
+        return EntityQuery.create(entityManager, UserPermision.class).list();
     }
     
     public void save(UserPermision userPermision) {

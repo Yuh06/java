@@ -32,20 +32,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String ssoId)
             throws UsernameNotFoundException {
         User user = userService.findBySSO(ssoId);
-        logger.info("ssoId : {}, User : {}",ssoId, user);
+        logger.info("ssoId: {}, User : {}", ssoId, user);
         if (user == null) {
             logger.info("User not found");
             throw new UsernameNotFoundException("Username not found");
         }
+        // tham so phan quyen: 
+        // Collection<? extend GrantedAuthority> <--> List<GrantedAuthority>
         return new org.springframework.security.core.userdetails.User(user.getSsoId(), user.getPassword(),
                 true, true, true, true, getGrantedAuthorities(user));
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-
         for (UserProfile userProfile : user.getUserProfiles()) {
-            // logger.info("UserProfile : {}", userProfile);
             authorities.add(new SimpleGrantedAuthority(userProfile.getType()));
         }
         logger.info("authorities : {}", authorities);

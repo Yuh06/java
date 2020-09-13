@@ -30,6 +30,7 @@ public class User implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty
     @Column(name = "SSO_ID", unique = true)
     private String ssoId;
@@ -69,8 +70,6 @@ public class User implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-
-   
 
     public String getSsoId() {
         return ssoId;

@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 
     public User findBySSO(String sso) {
     	return EntityQuery.create(entityManager, User.class)
-    			.stringEqualsTo("ssoId", sso).uniqueResult();
+    		.stringEqualsTo("ssoId", sso).uniqueResult();
     }
 
     public List<User> findAllUsers() {

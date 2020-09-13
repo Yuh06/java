@@ -128,13 +128,13 @@ textarea.input {
   min-height: 90px;
 }
 
-.ck-editor__editable {
-	min-height:400px;
-}
 /*-- Number input --*/
 
 .input-number {
   position: relative;
+}
+.ck-editor__editable {
+	min-height:400px;
 }
 
 .input-number input[type="number"]::-webkit-inner-spin-button, .input-number input[type="number"]::-webkit-outer-spin-button {

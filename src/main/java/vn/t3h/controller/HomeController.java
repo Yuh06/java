@@ -14,12 +14,10 @@ public class HomeController extends BaseController {
 
 	static final String VIEW_INDEX = "pages/index";
 	
-	@Autowired private HomeService homeService;
 	@Autowired private HttpSession httpSession;
 
 	@GetMapping(value = {"","/"})
 	public String getHome(Model model) {
-		model.addAttribute("str", homeService.hello());
 		httpSession.setAttribute("TODAY", System.currentTimeMillis());
 		return VIEW_INDEX;
 	}

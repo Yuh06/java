@@ -24,6 +24,7 @@ public class AuthController extends BaseController {
     public String login(@RequestParam(value = "error", required = false, defaultValue = "false") boolean error,
                         Map<String, Object> model,
                         HttpServletRequest httpServletRequest) throws IOException {
+    	
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof UsernamePasswordAuthenticationToken) {
             return home(httpServletRequest);
@@ -45,9 +46,9 @@ public class AuthController extends BaseController {
             return "redirect:/";
         }
     }
-
+    
     @RequestMapping(value={"/access-deny"}, method = RequestMethod.GET)
     public String accessdenied() throws IOException {
-        return "access_denied";
+        return "pages/access_denied";
     }
 }

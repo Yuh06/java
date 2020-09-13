@@ -32,7 +32,7 @@ public class Pages implements Serializable {
 	@Column(name="cate")
 	private Integer cate;
 	
-	@NotEmpty(message = "Ten bai hat khong duoc de trong")
+	@NotEmpty(message="Tên bài viết không được để trống")
 	@Column(name="name")
 	private String name;
 	

@@ -23,7 +23,7 @@ public class HibernateConfiguration {
     private Environment environment;
 
     @Bean(name="entityManagerFactory")
-    /*Chi dinh package Entity cua cac bang trong datavase */
+    /*Chỉ định package Entity của các bảng trong database*/
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
@@ -33,7 +33,7 @@ public class HibernateConfiguration {
     }
 	
     @Bean
-    /*Chi dinh ket noi den database */
+    /* Chỉ định kết nối đến db*/
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
@@ -53,7 +53,7 @@ public class HibernateConfiguration {
     
     @Bean
     @Autowired
-    /*Cache Global thong qua SessionFactory */
+    /* Cache Global thong qua SessionFactory*/
     public HibernateTransactionManager transactionManager(SessionFactory s) {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(s);

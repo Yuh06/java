@@ -21,13 +21,12 @@ public class Config implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	/* */
+	/* Chỉ định tên cột trong bảng config của db*/
 	private Integer id;
 	@Column(name = "`key`")
-	private String key; 
+	private String key;
 	@Column(name = "value")
 	private String value;
 	@Column(name = "note")
 	private String note;
-
 }

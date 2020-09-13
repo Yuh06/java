@@ -41,7 +41,7 @@ public class EcomerApplication {
 	@Bean
 	public CookieSerializer cookieSerializer() {
 		DefaultCookieSerializer dfc = new DefaultCookieSerializer();
-		dfc.setCookieName("JSESSIONID");
+		dfc.setCookieName("JSEESSIONID");
 		dfc.setCookiePath("/");
 		return dfc;
 	}

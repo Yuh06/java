@@ -1,7 +1,5 @@
 package vn.t3h.controller;
 
-
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -21,6 +19,7 @@ import vn.t3h.model.Pages;
 @Controller
 @RequestMapping("/pages")
 public class PagesController extends BaseController {
+	
 	Logger log = LoggerFactory.getLogger(PagesController.class);
 	@Autowired PagesDao pagesDao;
 	
@@ -32,13 +31,14 @@ public class PagesController extends BaseController {
 	}
 	
 	@PostMapping(value = "/create")
-	public String savePage (@Valid @ModelAttribute(value = "page") Pages page,
-	BindingResult bindingResult, Model model) {
+	public String savePage(@Valid @ModelAttribute(value="page") Pages page, 
+			BindingResult bindingResult,  Model model) {
 		String VIEW_FILE = "pages/page";
-		log.info("page name: {},title: {}", page.getName(), page.getTitle());
+		log.info("page name: {}, title: {}", page.getName(), page.getTitle());
 		if(bindingResult.hasErrors()) {
 			return VIEW_FILE;
 		}
+		
 		pagesDao.persist(page);
 		return VIEW_FILE;
 	}
